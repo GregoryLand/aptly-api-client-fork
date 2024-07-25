@@ -12,25 +12,19 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             max-parallel: 4
-            matrix:
-                python-version: ["3.11", "3.12"]
 
         steps:
             - uses: actions/checkout@v4
-            - name: Set up Python ${{ matrix.python-version }}
+            - name: Set up Python
               uses: actions/setup-python@v5
-              with:
-                  python-version: ${{ matrix.python-version }}
             - name: Install Hatch
               run: pipx install hatch
             - name: Run Tests
               run: |
-                  hatch test --cover
-            - name: Run Flake8
+                  hatch test --all --cover
+            - name: Lint
               run: |
-                  hatch run flake8 --max-line-length=120 aptly_api
-            - name: Run mypy
+                  hatch fmt --linter --check
+            - name: Static Type Checking
               run: |
-                  hatch run mypy --install-types --non-interactive \
-                       --ignore-missing-imports --follow-imports=skip --disallow-untyped-calls \
-                       --disallow-untyped-defs -p aptly_api
+                  hatch run mypy:type-check
