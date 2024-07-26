@@ -50,3 +50,17 @@ class MiscAPISection(BaseAPIClient):
                 raise AptlyAPIException("Aptly server didn't return a valid response object:\n%s" % resp.text)
         except ValueError as error:
             raise NotImplementedError("The Healthy Api is not yet supported") from error
+
+    def metrics(self) -> str:
+        try:
+            resp = self.do_get("api/metrics")
+        except AptlyAPIException as error:
+            if error.status_code == 404:
+                raise NotImplementedError from error
+            raise
+
+        if resp.status_code != 200:
+            raise AptlyAPIException(self._error_from_response(resp), status_code=resp.status_code)
+
+        return resp.text
+
