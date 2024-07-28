@@ -86,7 +86,7 @@ class MirrorsAPISection(BaseAPIClient):
         name: str,
         newname: Optional[str] = None,
         archiveurl: Optional[str] = None,
-        filter: Optional[str] = None,
+        filter: Optional[str] = None,  # noqa: A002
         architectures: Optional[List[str]] = None,
         components: Optional[List[str]] = None,
         keyrings: Optional[List[str]] = None,
@@ -161,7 +161,7 @@ class MirrorsAPISection(BaseAPIClient):
         name: str,
         archiveurl: str,
         distribution: Optional[str] = None,
-        filter: Optional[str] = None,
+        filter: Optional[str] = None,  # noqa: A002
         components: Optional[List[str]] = None,
         architectures: Optional[List[str]] = None,
         keyrings: Optional[List[str]] = None,

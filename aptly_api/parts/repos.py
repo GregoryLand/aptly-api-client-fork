@@ -123,7 +123,7 @@ class ReposAPISection(BaseAPIClient):
     def add_uploaded_file(
         self,
         reponame: str,
-        dir: str,
+        dir: str,  # noqa: A002
         filename: Optional[str] = None,
         remove_processed_files: bool = True,
         force_replace: bool = False,
