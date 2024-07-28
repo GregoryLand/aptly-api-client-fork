@@ -30,7 +30,9 @@ class MiscAPISection(BaseAPIClient):
                 raise NotImplementedError("The Ready API is not yet supported") from error
             # 503 is needed by api/ready for returning its unready condition
             if error.status_code not in {200, 503}:
-                raise AptlyAPIException("Aptly server returned an unexpected status_code " + str(error.status_code)) from error
+                raise AptlyAPIException(
+                    "Aptly server returned an unexpected status_code " + str(error.status_code)
+                ) from error
             raise
 
     def ready(self) -> str:
@@ -63,4 +65,3 @@ class MiscAPISection(BaseAPIClient):
             raise AptlyAPIException(self._error_from_response(resp), status_code=resp.status_code)
 
         return resp.text
-

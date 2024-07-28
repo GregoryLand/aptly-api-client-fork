@@ -14,7 +14,7 @@ from aptly_api.base import AptlyAPIException
 from aptly_api.parts.files import FilesAPISection
 
 
-@requests_mock.Mocker(kw='rmock')
+@requests_mock.Mocker(kw="rmock")
 class FilesAPISectionTests(TestCase):
     def __init__(self, *args: Any) -> None:
         super().__init__(*args)
@@ -32,7 +32,7 @@ class FilesAPISectionTests(TestCase):
         rmock.post("http://test/api/files/test", text='["test/testpkg.deb"]')
         self.assertSequenceEqual(
             self.fapi.upload("test", os.path.join(os.path.dirname(__file__), "testpkg.deb")),
-            ['test/testpkg.deb'],
+            ["test/testpkg.deb"],
         )
 
     def test_upload_invalid(self, *, rmock: requests_mock.Mocker) -> None:
@@ -40,12 +40,10 @@ class FilesAPISectionTests(TestCase):
             self.fapi.upload("test", "noexistant")
 
     def test_upload_failed(self, *, rmock: requests_mock.Mocker) -> None:
-        rmock.post("http://test/api/files/test", text='["test/testpkg.deb"]',
-                   status_code=500)
+        rmock.post("http://test/api/files/test", text='["test/testpkg.deb"]', status_code=500)
         with self.assertRaises(AptlyAPIException):
             self.fapi.upload("test", os.path.join(os.path.dirname(__file__), "testpkg.deb"))
 
     def test_delete(self, *, rmock: requests_mock.Mocker) -> None:
-        rmock.delete("http://test/api/files/test",
-                     text='{}')
+        rmock.delete("http://test/api/files/test", text="{}")
         self.fapi.delete("test")

@@ -12,7 +12,7 @@ from aptly_api.base import AptlyAPIException
 from aptly_api.parts.misc import MiscAPISection
 
 
-@requests_mock.Mocker(kw='rmock')
+@requests_mock.Mocker(kw="rmock")
 class MiscAPISectionTests(TestCase):
     def __init__(self, *args: Any) -> None:
         super().__init__(*args)
@@ -70,7 +70,7 @@ class MiscAPISectionTests(TestCase):
             self.mapi.healthy()
 
     def test_metrics(self, *, rmock: requests_mock.Mocker) -> None:
-        with open('./aptly_api/tests/test_data/metrics.txt') as test_file:
+        with open("./aptly_api/tests/test_data/metrics.txt") as test_file:
             test_data = test_file.read()
             rmock.get("http://test/api/metrics", text=test_data)
             self.assertEqual(self.mapi.metrics(), test_data)
@@ -84,4 +84,3 @@ class MiscAPISectionTests(TestCase):
         rmock.register_uri("GET", "http://test/api/metrics", status_code=404, text="404 page not found")
         with self.assertRaises(NotImplementedError):
             self.mapi.metrics()
-

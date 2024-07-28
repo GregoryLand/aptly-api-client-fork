@@ -24,11 +24,12 @@ class FilesAPISection(BaseAPIClient):
             if not os.path.exists(f) or not os.access(f, os.R_OK):
                 raise AptlyAPIException("File to upload %s can't be opened or read" % f)
             fh = open(f, mode="rb")
-            to_upload.append((f, fh),)
+            to_upload.append(
+                (f, fh),
+            )
 
         try:
-            resp = self.do_post("api/files/%s" % destination,
-                                files=to_upload)
+            resp = self.do_post("api/files/%s" % destination, files=to_upload)
         except AptlyAPIException:
             raise
         finally:

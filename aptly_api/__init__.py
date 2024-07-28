@@ -16,5 +16,4 @@ from aptly_api.parts.snapshots import Snapshot as Snapshot
 version = "0.2.5"
 
 
-__all__ = ['Client', 'AptlyAPIException', 'version', 'Package', 'PublishEndpoint', 'Repo', 'FileReport',
-           'Snapshot']
+__all__ = ["Client", "AptlyAPIException", "version", "Package", "PublishEndpoint", "Repo", "FileReport", "Snapshot"]

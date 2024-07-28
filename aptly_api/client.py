@@ -16,25 +16,64 @@ from aptly_api.parts.mirrors import MirrorsAPISection
 
 
 class Client:
-    def __init__(self, aptly_server_url: str, ssl_verify: Union[str, bool, None] = None,
-                 ssl_cert: Optional[Tuple[str, str]] = None, http_auth: Optional[AuthBase] = None,
-                 timeout: int = 60) -> None:
+    def __init__(
+        self,
+        aptly_server_url: str,
+        ssl_verify: Union[str, bool, None] = None,
+        ssl_cert: Optional[Tuple[str, str]] = None,
+        http_auth: Optional[AuthBase] = None,
+        timeout: int = 60,
+    ) -> None:
         self.__aptly_server_url = aptly_server_url
-        self.files = FilesAPISection(base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-                                     ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
-        self.misc = MiscAPISection(base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-                                   ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
-        self.packages = PackageAPISection(base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-                                          ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
-        self.publish = PublishAPISection(base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-                                         ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
-        self.repos = ReposAPISection(base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-                                     ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
-        self.snapshots = SnapshotAPISection(base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-                                            ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
+        self.files = FilesAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
+        self.misc = MiscAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
+        self.packages = PackageAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
+        self.publish = PublishAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
+        self.repos = ReposAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
+        self.snapshots = SnapshotAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
         self.mirrors = MirrorsAPISection(
-            base_url=self.__aptly_server_url, ssl_verify=ssl_verify,
-            ssl_cert=ssl_cert, http_auth=http_auth, timeout=timeout)
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
 
     @property
     def aptly_server_url(self) -> str:
