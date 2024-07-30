@@ -67,7 +67,6 @@ line-length = 120
 
 [tool.ruff.lint]
 ignore = [
-    "B007",
     "EM101",
     "FA100",
     "FBT001",

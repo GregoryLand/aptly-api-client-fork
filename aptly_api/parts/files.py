@@ -33,7 +33,7 @@ class FilesAPISection(BaseAPIClient):
         except AptlyAPIException:
             raise
         finally:
-            for fn, to_close in to_upload:
+            for _fn, to_close in to_upload:
                 if not to_close.closed:
                     to_close.close()
 
