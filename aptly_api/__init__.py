@@ -6,13 +6,12 @@
 
 
 # explicit exports for mypy
-from aptly_api.base import AptlyAPIException as AptlyAPIException
-from aptly_api.client import Client as Client
-from aptly_api.parts.packages import Package as Package
-from aptly_api.parts.publish import PublishEndpoint as PublishEndpoint
-from aptly_api.parts.repos import FileReport as FileReport
-from aptly_api.parts.repos import Repo as Repo
-from aptly_api.parts.snapshots import Snapshot as Snapshot
+from aptly_api.base import AptlyAPIException
+from aptly_api.client import Client
+from aptly_api.parts.packages import Package
+from aptly_api.parts.publish import PublishEndpoint
+from aptly_api.parts.repos import FileReport, Repo
+from aptly_api.parts.snapshots import Snapshot
 
 version = "0.2.5"
 
