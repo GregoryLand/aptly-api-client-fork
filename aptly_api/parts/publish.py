@@ -98,11 +98,13 @@ class PublishAPISection(BaseAPIClient):
             )
         """
         if sign_passphrase is not None and sign_passphrase_file is not None:
-            raise AptlyAPIException("Can't use sign_passphrase and sign_passphrase_file at the same time")
+            msg = "Can't use sign_passphrase and sign_passphrase_file at the same time"
+            raise AptlyAPIException(msg)
 
         for source in sources:
             if "name" not in source and "Name" not in source:
-                raise AptlyAPIException("Each source in publish() must contain the 'name' attribute")
+                msg = "Each source in publish() must contain the 'name' attribute"
+                raise AptlyAPIException(msg)
 
         url = "api/publish"
         if prefix is not None and prefix != "":
@@ -176,14 +178,16 @@ class PublishAPISection(BaseAPIClient):
             )
         """
         if sign_passphrase is not None and sign_passphrase_file is not None:
-            raise AptlyAPIException("Can't use sign_passphrase and sign_passphrase_file at the same time")
+            msg = "Can't use sign_passphrase and sign_passphrase_file at the same time"
+            raise AptlyAPIException(msg)
 
         body = {}  # type: T_BodyDict
 
         if snapshots is not None:
             for source in snapshots:
                 if "name" not in source and "Name" not in source:
-                    raise AptlyAPIException("Each source in update() must contain the 'name' attribute")
+                    msg = "Each source in update() must contain the 'name' attribute"
+                    raise AptlyAPIException(msg)
             body["Snapshots"] = snapshots
 
         if force_overwrite:

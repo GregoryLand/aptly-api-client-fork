@@ -69,7 +69,8 @@ class ReposAPISection(BaseAPIClient):
         self, reponame: str, query: Optional[str] = None, with_deps: bool = False, detailed: bool = False
     ) -> Sequence[Package]:
         if query is None and with_deps:
-            raise AptlyAPIException("search_packages can't include dependencies (with_deps==True) without" "a query")
+            msg = "search_packages can't include dependencies (with_deps==True) without" "a query"
+            raise AptlyAPIException(msg)
         params = {}
         if query:
             params["q"] = query
@@ -94,9 +95,8 @@ class ReposAPISection(BaseAPIClient):
         default_component: Optional[str] = None,
     ) -> Repo:
         if comment is None and default_component is None and default_distribution is None:
-            raise AptlyAPIException(
-                "edit requires at least one of 'comment', 'default_distribution' or " "'default_component'."
-            )
+            msg = "edit requires at least one of 'comment', 'default_distribution' or " "'default_component'."
+            raise AptlyAPIException(msg)
 
         body = {}
         if comment is not None:

@@ -83,9 +83,8 @@ class SnapshotAPISection(BaseAPIClient):
         self, snapshotname: str, newname: Optional[str] = None, newdescription: Optional[str] = None
     ) -> Snapshot:
         if newname is None and newdescription is None:
-            raise AptlyAPIException(
-                "When updating a Snapshot you must at lease provide either a new name or a " "new description."
-            )
+            msg = "When updating a Snapshot you must at lease provide either a new name or a " "new description."
+            raise AptlyAPIException(msg)
         body = {}  # type: Dict[str, Union[str, Sequence[str]]]
         if newname is not None:
             body["Name"] = newname
