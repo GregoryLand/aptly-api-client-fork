@@ -347,7 +347,7 @@ class PublishAPISectionTests(TestCase):
             ),
         )
 
-    def test_double_passphrase(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_double_passphrase(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.papi.publish(
                 sources=[{"Name": "aptly-repo"}],
@@ -369,7 +369,7 @@ class PublishAPISectionTests(TestCase):
                 sign_passphrase_file="****",
             )
 
-    def test_no_name(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_no_name(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.papi.publish(
                 sources=[{"nope": "nope"}],
@@ -394,7 +394,7 @@ class PublishAPISectionTests(TestCase):
         rmock.delete("http://test/api/publish/s3%3Amyendpoint%3Atest_a__1/test?force=1", text="{}")
         self.papi.drop(prefix="s3:myendpoint:test/a_1", distribution="test", force_delete=True)
 
-    def test_escape_prefix(self, *args: Any, **kwargs: Any) -> None:
+    def test_escape_prefix(self, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
         self.assertEqual(
             self.papi.escape_prefix("test/a_1"),
             "test_a__1",

@@ -22,7 +22,7 @@ class MiscAPISectionTests(TestCase):
         rmock.get("http://test/api/version", text='{"Version":"1.0.1"}')
         self.assertEqual(self.mapi.version(), "1.0.1")
 
-    def test_graph(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_graph(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(NotImplementedError):
             self.mapi.graph("png")
 

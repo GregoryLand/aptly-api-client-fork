@@ -35,7 +35,7 @@ class FilesAPISectionTests(TestCase):
             ["test/testpkg.deb"],
         )
 
-    def test_upload_invalid(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_upload_invalid(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.fapi.upload("test", "noexistant")
 

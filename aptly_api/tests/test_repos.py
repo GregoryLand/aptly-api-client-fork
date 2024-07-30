@@ -130,7 +130,7 @@ class ReposAPISectionTests(TestCase):
             ],
         )
 
-    def test_repo_edit_validation(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_repo_edit_validation(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.rapi.edit("aptly-repo")
 
@@ -160,7 +160,7 @@ class ReposAPISectionTests(TestCase):
             ],
         )
 
-    def test_delete(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_delete(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(requests_mock.NoMockAddress):
             self.rapi.delete("aptly-repo", force=True)
 
@@ -208,6 +208,6 @@ class ReposAPISectionTests(TestCase):
             Repo(name="aptly-repo", comment="", default_distribution="", default_component=""),
         )
 
-    def test_search_invalid_params(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_search_invalid_params(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.rapi.search_packages("aptly-repo", with_deps=True)

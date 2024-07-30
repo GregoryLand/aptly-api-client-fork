@@ -72,7 +72,7 @@ class MirrorsAPISectionTests(TestCase):
         self.assertEqual(len(rmock.request_history[0].json()), len(expected))
         self.assertEqual(rmock.request_history[0].json(), expected)
 
-    def test_mirror_from_response(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_mirror_from_response(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         self.assertSequenceEqual(
             self.miapi.mirror_from_response(
                 json.loads("""{
@@ -322,15 +322,15 @@ class MirrorsAPISectionTests(TestCase):
             ],
         )
 
-    def test_delete(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_delete(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(requests_mock.NoMockAddress):
             self.miapi.delete(name="aptly-mirror")
 
-    def test_update(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_update(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(requests_mock.NoMockAddress):
             self.miapi.update(name="aptly-mirror", ignore_signatures=True)
 
-    def test_edit(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_edit(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(requests_mock.NoMockAddress):
             self.miapi.edit(
                 name="aptly-mirror",

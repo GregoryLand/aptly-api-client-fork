@@ -47,11 +47,11 @@ class SnapshotAPISectionTests(TestCase):
             ],
         )
 
-    def test_list_invalid(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_list_invalid(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.sapi.list("snoepsort")
 
-    def test_update_noparams(self, *, rmock: requests_mock.Mocker) -> None:
+    def test_update_noparams(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
             self.sapi.update("test")
 
