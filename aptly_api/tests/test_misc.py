@@ -6,6 +6,7 @@
 from typing import Any
 from unittest.case import TestCase
 
+import pytest
 import requests_mock
 
 from aptly_api.base import AptlyAPIException
@@ -23,12 +24,12 @@ class MiscAPISectionTests(TestCase):
         assert self.mapi.version() == "1.0.1"
 
     def test_graph(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(NotImplementedError):
+        with pytest.raises(NotImplementedError):
             self.mapi.graph("png")
 
     def test_version_error(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/version", text='{"droenk": "blah"}')
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.mapi.version()
 
     def test_ready(self, *, rmock: requests_mock.Mocker) -> None:
@@ -41,17 +42,17 @@ class MiscAPISectionTests(TestCase):
 
     def test_ready_error(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/ready", text='{"droenk": "blah"}')
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.mapi.ready()
 
     def test_ready_error_bad_status_code(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/ready", status_code=999, text='{"Status":"Aptly is ready"}')
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.mapi.ready()
 
     def test_ready_aptly_to_old(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/ready", status_code=404, text="Not Found")
-        with self.assertRaises(NotImplementedError):
+        with pytest.raises(NotImplementedError):
             self.mapi.ready()
 
     def test_healthy(self, *, rmock: requests_mock.Mocker) -> None:
@@ -60,13 +61,13 @@ class MiscAPISectionTests(TestCase):
 
     def test_healthy_error(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/healthy", text='{"dronek": "blah"}')
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.mapi.healthy()
 
     def test_healthy_aptly_to_old(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/healthy", status_code=404, text="Not Found")
         rmock.get("http://test/api/healthy")
-        with self.assertRaises(NotImplementedError):
+        with pytest.raises(NotImplementedError):
             self.mapi.healthy()
 
     def test_metrics(self, *, rmock: requests_mock.Mocker) -> None:
@@ -77,10 +78,10 @@ class MiscAPISectionTests(TestCase):
 
     def test_metrics_non_200_status_code(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/metrics", status_code=204, text="")
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.mapi.metrics()
 
     def test_metrics_api_disabled_or_missing(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/metrics", status_code=404, text="404 page not found")
-        with self.assertRaises(NotImplementedError):
+        with pytest.raises(NotImplementedError):
             self.mapi.metrics()

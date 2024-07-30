@@ -7,6 +7,7 @@ import os
 from typing import Any
 from unittest.case import TestCase
 
+import pytest
 import requests_mock
 
 from aptly_api.base import AptlyAPIException
@@ -32,12 +33,12 @@ class FilesAPISectionTests(TestCase):
         assert self.fapi.upload("test", os.path.join(os.path.dirname(__file__), "testpkg.deb")) == ["test/testpkg.deb"]
 
     def test_upload_invalid(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.fapi.upload("test", "noexistant")
 
     def test_upload_failed(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.post("http://test/api/files/test", text='["test/testpkg.deb"]', status_code=500)
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.fapi.upload("test", os.path.join(os.path.dirname(__file__), "testpkg.deb"))
 
     def test_delete(self, *, rmock: requests_mock.Mocker) -> None:

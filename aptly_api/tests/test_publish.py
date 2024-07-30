@@ -6,6 +6,7 @@
 from typing import Any
 from unittest.case import TestCase
 
+import pytest
 import requests_mock
 
 from aptly_api.base import AptlyAPIException
@@ -337,7 +338,7 @@ class PublishAPISectionTests(TestCase):
         assert test == test_data
 
     def test_double_passphrase(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.papi.publish(
                 sources=[{"Name": "aptly-repo"}],
                 architectures=["amd64"],
@@ -348,7 +349,7 @@ class PublishAPISectionTests(TestCase):
                 sign_passphrase="*******",
                 sign_passphrase_file="****",
             )
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.papi.update(
                 prefix="s3:myendpoint:test/a_1",
                 distribution="test",
@@ -359,7 +360,7 @@ class PublishAPISectionTests(TestCase):
             )
 
     def test_no_name(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.papi.publish(
                 sources=[{"nope": "nope"}],
                 architectures=["amd64"],
@@ -369,7 +370,7 @@ class PublishAPISectionTests(TestCase):
                 sign_gpgkey="A16BE921",
                 sign_passphrase="*******",
             )
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.papi.update(
                 snapshots=[{"nope": "nope"}],
                 prefix="s3:myendpoint:test/a_1",

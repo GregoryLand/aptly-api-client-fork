@@ -5,6 +5,7 @@ from typing import Any
 from unittest.case import TestCase
 
 import iso8601
+import pytest
 import requests_mock
 
 from aptly_api.base import AptlyAPIException
@@ -47,11 +48,11 @@ class SnapshotAPISectionTests(TestCase):
         assert test == test_data
 
     def test_list_invalid(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.sapi.list("snoepsort")
 
     def test_update_noparams(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.sapi.update("test")
 
     def test_create(self, *, rmock: requests_mock.Mocker) -> None:

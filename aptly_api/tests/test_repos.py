@@ -6,6 +6,7 @@
 from typing import Any
 from unittest.case import TestCase
 
+import pytest
 import requests_mock
 
 from aptly_api.base import AptlyAPIException
@@ -127,7 +128,7 @@ class ReposAPISectionTests(TestCase):
         assert test == test_data
 
     def test_repo_edit_validation(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.rapi.edit("aptly-repo")
 
     def test_repo_edit(self, *, rmock: requests_mock.Mocker) -> None:
@@ -155,7 +156,7 @@ class ReposAPISectionTests(TestCase):
         assert test == test_data
 
     def test_delete(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(requests_mock.NoMockAddress):
+        with pytest.raises(requests_mock.NoMockAddress):
             self.rapi.delete("aptly-repo", force=True)
 
     def test_add_file(self, *, rmock: requests_mock.Mocker) -> None:
@@ -199,5 +200,5 @@ class ReposAPISectionTests(TestCase):
         assert test == test_data
 
     def test_search_invalid_params(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.rapi.search_packages("aptly-repo", with_deps=True)

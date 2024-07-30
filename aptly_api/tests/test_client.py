@@ -6,6 +6,7 @@
 from typing import Any, cast
 from unittest.case import TestCase
 
+import pytest
 import requests
 import requests_mock
 
@@ -82,7 +83,7 @@ class ClientTests(TestCase):
         rmock.register_uri(
             "GET", "mock://test/api", status_code=400, text='[{"error": "error", "meta": "meta"}]', reason="test"
         )
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.client.files.do_get("mock://test/api")
 
     @requests_mock.Mocker(kw="rmock")
@@ -96,7 +97,7 @@ class ClientTests(TestCase):
         rmock.register_uri(
             "POST", "mock://test/api", status_code=400, text='[{"error": "error", "meta": "meta"}]', reason="test"
         )
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.client.files.do_post("mock://test/api")
 
     @requests_mock.Mocker(kw="rmock")
@@ -104,7 +105,7 @@ class ClientTests(TestCase):
         rmock.register_uri(
             "PUT", "mock://test/api", status_code=400, text='[{"error": "error", "meta": "meta"}]', reason="test"
         )
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.client.files.do_put("mock://test/api")
 
     @requests_mock.Mocker(kw="rmock")
@@ -112,5 +113,5 @@ class ClientTests(TestCase):
         rmock.register_uri(
             "DELETE", "mock://test/api", status_code=400, text='[{"error": "error", "meta": "meta"}]', reason="test"
         )
-        with self.assertRaises(AptlyAPIException):
+        with pytest.raises(AptlyAPIException):
             self.client.files.do_delete("mock://test/api")

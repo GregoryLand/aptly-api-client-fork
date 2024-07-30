@@ -8,6 +8,7 @@ from inspect import signature
 from typing import Any
 from unittest.case import TestCase
 
+import pytest
 import requests_mock
 
 from aptly_api.parts.mirrors import Mirror, MirrorsAPISection
@@ -314,15 +315,15 @@ class MirrorsAPISectionTests(TestCase):
         assert self.miapi.list_packages("aptly-mirror", detailed=True, with_deps=True, query="nodejs") == confirm
 
     def test_delete(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(requests_mock.NoMockAddress):
+        with pytest.raises(requests_mock.NoMockAddress):
             self.miapi.delete(name="aptly-mirror")
 
     def test_update(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(requests_mock.NoMockAddress):
+        with pytest.raises(requests_mock.NoMockAddress):
             self.miapi.update(name="aptly-mirror", ignore_signatures=True)
 
     def test_edit(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
-        with self.assertRaises(requests_mock.NoMockAddress):
+        with pytest.raises(requests_mock.NoMockAddress):
             self.miapi.edit(
                 name="aptly-mirror",
                 newname="aptly-mirror-renamed",
