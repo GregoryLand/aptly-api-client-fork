@@ -22,7 +22,7 @@ class ClientTests(TestCase):
 
     def test_instantiate(self) -> None:
         cl = AptlyClient("http://test/")
-        self.assertEqual(str(cl), "Client (Aptly API Client) <http://test/>")
+        assert str(cl) == "Client (Aptly API Client) <http://test/>"
 
     @requests_mock.Mocker(kw="rmock")
     def test_api_subdir_get(self, *, rmock: requests_mock.Mocker) -> None:
@@ -37,15 +37,15 @@ class ClientTests(TestCase):
         cl = AptlyClient("mock://test/basedir/")
         rmock.get("mock://test/basedir/api/test", status_code=200, text="")
         cl.files.do_get("api/test")
-        self.assertTrue(rmock.called)
+        assert rmock.called
 
     def test_error_no_error(self) -> None:
         class MockResponse:
             def __init__(self, status_code: int = 200) -> None:
                 self.status_code = status_code
 
-        self.assertEqual(
-            self.client.files._error_from_response(cast(requests.Response, MockResponse())), "no error (status 200)"
+        assert (
+            self.client.files._error_from_response(cast(requests.Response, MockResponse())) == "no error (status 200)"
         )
 
     def test_error_no_json(self) -> None:
@@ -55,7 +55,7 @@ class ClientTests(TestCase):
         session.mount("mock", adapter)
         resp = session.get("mock://test/api")
 
-        self.assertEqual(self.client.files._error_from_response(resp), "400 test this is not json")
+        assert self.client.files._error_from_response(resp) == "400 test this is not json"
 
     def test_error_dict(self) -> None:
         adapter = requests_mock.Adapter()
@@ -65,7 +65,7 @@ class ClientTests(TestCase):
         session = requests.session()
         session.mount("mock", adapter)
         resp = session.get("mock://test/api")
-        self.assertEqual(self.client.files._error_from_response(resp), "400 - test - error (meta)")
+        assert self.client.files._error_from_response(resp) == "400 - test - error (meta)"
 
     def test_error_list(self) -> None:
         adapter = requests_mock.Adapter()
@@ -75,7 +75,7 @@ class ClientTests(TestCase):
         session = requests.session()
         session.mount("mock", adapter)
         resp = session.get("mock://test/api")
-        self.assertEqual(self.client.files._error_from_response(resp), "400 - test - error (meta)")
+        assert self.client.files._error_from_response(resp) == "400 - test - error (meta)"
 
     @requests_mock.Mocker(kw="rmock")
     def test_error_get(self, *, rmock: requests_mock.Mocker) -> None:
@@ -88,8 +88,8 @@ class ClientTests(TestCase):
     @requests_mock.Mocker(kw="rmock")
     def test_error_get_api_ready_503_code(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "mock://test/api/ready", status_code=503, text='{"Status":"Aptly is unavailable"}')
-        self.assertEqual(self.client.files.do_get("mock://test/api/ready").status_code, 503)
-        self.assertEqual(self.client.files.do_get("mock://test/api/ready").json()["Status"], "Aptly is unavailable")
+        assert self.client.files.do_get("mock://test/api/ready").status_code == 503
+        assert self.client.files.do_get("mock://test/api/ready").json()["Status"] == "Aptly is unavailable"
 
     @requests_mock.Mocker(kw="rmock")
     def test_error_post(self, *, rmock: requests_mock.Mocker) -> None:

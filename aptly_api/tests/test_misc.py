@@ -20,7 +20,7 @@ class MiscAPISectionTests(TestCase):
 
     def test_version(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/version", text='{"Version":"1.0.1"}')
-        self.assertEqual(self.mapi.version(), "1.0.1")
+        assert self.mapi.version() == "1.0.1"
 
     def test_graph(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(NotImplementedError):
@@ -33,11 +33,11 @@ class MiscAPISectionTests(TestCase):
 
     def test_ready(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/ready", text='{"Status":"Aptly is ready"}')
-        self.assertEqual(self.mapi.ready(), "Aptly is ready")
+        assert self.mapi.ready() == "Aptly is ready"
 
     def test_ready_not_ready(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/ready", status_code=503, text='{"Status":"Aptly is unavailable"}')
-        self.assertEqual(self.mapi.ready(), "Aptly is unavailable")
+        assert self.mapi.ready() == "Aptly is unavailable"
 
     def test_ready_error(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/ready", text='{"droenk": "blah"}')
@@ -56,7 +56,7 @@ class MiscAPISectionTests(TestCase):
 
     def test_healthy(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/healthy", text='{"Status":"Aptly is healthy"}')
-        self.assertEqual(self.mapi.healthy(), "Aptly is healthy")
+        assert self.mapi.healthy() == "Aptly is healthy"
 
     def test_healthy_error(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/healthy", text='{"dronek": "blah"}')
@@ -73,7 +73,7 @@ class MiscAPISectionTests(TestCase):
         with open("./aptly_api/tests/test_data/metrics.txt") as test_file:
             test_data = test_file.read()
             rmock.get("http://test/api/metrics", text=test_data)
-            self.assertEqual(self.mapi.metrics(), test_data)
+            assert self.mapi.metrics() == test_data
 
     def test_metrics_non_200_status_code(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/metrics", status_code=204, text="")

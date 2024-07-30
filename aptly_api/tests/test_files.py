@@ -21,18 +21,15 @@ class FilesAPISectionTests(TestCase):
 
     def test_list(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/files", text='["aptly-0.9"]')
-        self.assertSequenceEqual(self.fapi.list(), ["aptly-0.9"])
+        assert self.fapi.list() == ["aptly-0.9"]
 
     def test_list_dir(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.get("http://test/api/files/dir", text='["dir/aptly_0.9~dev+217+ge5d646c_i386.deb"]')
-        self.assertSequenceEqual(self.fapi.list("dir"), ["dir/aptly_0.9~dev+217+ge5d646c_i386.deb"])
+        assert self.fapi.list("dir") == ["dir/aptly_0.9~dev+217+ge5d646c_i386.deb"]
 
     def test_upload_file(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.post("http://test/api/files/test", text='["test/testpkg.deb"]')
-        self.assertSequenceEqual(
-            self.fapi.upload("test", os.path.join(os.path.dirname(__file__), "testpkg.deb")),
-            ["test/testpkg.deb"],
-        )
+        assert self.fapi.upload("test", os.path.join(os.path.dirname(__file__), "testpkg.deb")) == ["test/testpkg.deb"]
 
     def test_upload_invalid(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with self.assertRaises(AptlyAPIException):
