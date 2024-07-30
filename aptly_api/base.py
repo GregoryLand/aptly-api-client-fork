@@ -59,6 +59,11 @@ _datatype = Optional[
     ]
 ]
 
+HTTP_CODE_200 = 200
+HTTP_CODE_300 = 300
+HTTP_CODE_404 = 404
+HTTP_CODE_503 = 503
+
 
 class AptlyAPIException(Exception):
     def __init__(self, *args: Any, status_code: int = 0) -> None:
@@ -83,7 +88,7 @@ class BaseAPIClient:
         self.timeout = timeout
 
     def _error_from_response(self, resp: requests.Response) -> str:
-        if resp.status_code == 200:
+        if resp.status_code == HTTP_CODE_200:
             return "no error (status 200)"
 
         try:
@@ -126,7 +131,7 @@ class BaseAPIClient:
             timeout=self.timeout,
         )
 
-        if resp.status_code < 200 or resp.status_code >= 300 and resp.status_code != 503:
+        if resp.status_code < HTTP_CODE_200 or resp.status_code >= HTTP_CODE_300 and resp.status_code != HTTP_CODE_503:
             raise AptlyAPIException(self._error_from_response(resp), status_code=resp.status_code)
 
         return resp
@@ -151,7 +156,7 @@ class BaseAPIClient:
             timeout=self.timeout,
         )
 
-        if resp.status_code < 200 or resp.status_code >= 300:
+        if resp.status_code < HTTP_CODE_200 or resp.status_code >= HTTP_CODE_300:
             raise AptlyAPIException(self._error_from_response(resp), status_code=resp.status_code)
 
         return resp
@@ -174,7 +179,7 @@ class BaseAPIClient:
             timeout=self.timeout,
         )
 
-        if resp.status_code < 200 or resp.status_code >= 300:
+        if resp.status_code < HTTP_CODE_200 or resp.status_code >= HTTP_CODE_300:
             raise AptlyAPIException(self._error_from_response(resp), status_code=resp.status_code)
 
         return resp
@@ -197,7 +202,7 @@ class BaseAPIClient:
             timeout=self.timeout,
         )
 
-        if resp.status_code < 200 or resp.status_code >= 300:
+        if resp.status_code < HTTP_CODE_200 or resp.status_code >= HTTP_CODE_300:
             raise AptlyAPIException(self._error_from_response(resp), status_code=resp.status_code)
 
         return resp
