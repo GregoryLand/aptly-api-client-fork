@@ -19,7 +19,7 @@ class FilesAPISection(BaseAPIClient):
         for f in files:
             if not os.path.exists(f) or not os.access(f, os.R_OK):
                 raise AptlyAPIException("File to upload %s can't be opened or read" % f)
-            fh = open(f, mode="rb")
+            fh = open(f, mode="rb")  # noqa: SIM115
             to_upload.append(
                 (f, fh),
             )
