@@ -100,10 +100,7 @@ class BaseAPIClient:
                 resp.text,
             )
 
-        if isinstance(rcnt, dict):
-            content = rcnt
-        else:
-            content = rcnt[0]
+        content = rcnt if isinstance(rcnt, dict) else rcnt[0]
 
         ret = "%s - %s -" % (resp.status_code, resp.reason)
         if "error" in content:

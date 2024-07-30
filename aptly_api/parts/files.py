@@ -11,11 +11,7 @@ from aptly_api.base import AptlyAPIException, BaseAPIClient
 
 class FilesAPISection(BaseAPIClient):
     def list(self, directory: Optional[str] = None) -> Sequence[str]:
-        if directory is None:
-            resp = self.do_get("api/files")
-        else:
-            resp = self.do_get("api/files/%s" % directory)
-
+        resp = self.do_get("api/files") if directory is None else self.do_get("api/files/%s" % directory)
         return cast(List[str], resp.json())
 
     def upload(self, destination: str, *files: str) -> Sequence[str]:
