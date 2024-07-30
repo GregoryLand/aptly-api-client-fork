@@ -3,13 +3,13 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from unittest.case import TestCase
 from typing import Any
+from unittest.case import TestCase
 
 import requests_mock
 
 from aptly_api.base import AptlyAPIException
-from aptly_api.parts.publish import PublishEndpoint, PublishAPISection
+from aptly_api.parts.publish import PublishAPISection, PublishEndpoint
 
 
 @requests_mock.Mocker(kw="rmock")

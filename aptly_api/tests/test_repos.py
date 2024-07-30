@@ -10,7 +10,7 @@ import requests_mock
 
 from aptly_api.base import AptlyAPIException
 from aptly_api.parts.packages import Package
-from aptly_api.parts.repos import ReposAPISection, Repo, FileReport
+from aptly_api.parts.repos import FileReport, Repo, ReposAPISection
 
 
 @requests_mock.Mocker(kw="rmock")

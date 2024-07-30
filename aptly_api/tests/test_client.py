@@ -11,7 +11,6 @@ import requests_mock
 
 from aptly_api import Client as AptlyClient
 
-
 # as we're testing the individual parts, this is rather simple
 from aptly_api.base import AptlyAPIException
 

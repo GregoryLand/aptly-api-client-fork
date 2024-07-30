@@ -4,11 +4,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from typing import NamedTuple, Dict, Union, Optional
+from typing import Dict, NamedTuple, Optional, Union
 from urllib.parse import quote
 
 from aptly_api.base import BaseAPIClient
-
 
 Package = NamedTuple(
     "Package",

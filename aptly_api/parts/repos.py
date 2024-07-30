@@ -3,11 +3,11 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from typing import NamedTuple, Sequence, Dict, Union, cast, Optional
+from typing import Dict, NamedTuple, Optional, Sequence, Union, cast
 from urllib.parse import quote
 
-from aptly_api.base import BaseAPIClient, AptlyAPIException
-from aptly_api.parts.packages import PackageAPISection, Package
+from aptly_api.base import AptlyAPIException, BaseAPIClient
+from aptly_api.parts.packages import Package, PackageAPISection
 
 Repo = NamedTuple(
     "Repo",

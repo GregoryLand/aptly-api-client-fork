@@ -4,18 +4,18 @@
 
 from typing import (
     IO,
-    TextIO,
-    BinaryIO,
-    Sequence,
-    Dict,
-    Tuple,
-    Optional,
-    Union,
-    List,
     Any,
-    MutableMapping,
+    BinaryIO,
+    Dict,
     Iterable,
+    List,
     Mapping,
+    MutableMapping,
+    Optional,
+    Sequence,
+    TextIO,
+    Tuple,
+    Union,
 )
 from urllib.parse import urljoin
 

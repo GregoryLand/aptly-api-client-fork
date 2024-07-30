@@ -8,7 +8,7 @@ from unittest.case import TestCase
 
 import requests_mock
 
-from aptly_api.parts.packages import PackageAPISection, Package
+from aptly_api.parts.packages import Package, PackageAPISection
 
 
 @requests_mock.Mocker(kw="rmock")

@@ -3,16 +3,17 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from requests.auth import AuthBase
-from typing import Union, Optional, Tuple
+from typing import Optional, Tuple, Union
 
+from requests.auth import AuthBase
+
+from aptly_api.parts.files import FilesAPISection
+from aptly_api.parts.mirrors import MirrorsAPISection
 from aptly_api.parts.misc import MiscAPISection
 from aptly_api.parts.packages import PackageAPISection
 from aptly_api.parts.publish import PublishAPISection
 from aptly_api.parts.repos import ReposAPISection
-from aptly_api.parts.files import FilesAPISection
 from aptly_api.parts.snapshots import SnapshotAPISection
-from aptly_api.parts.mirrors import MirrorsAPISection
 
 
 class Client:

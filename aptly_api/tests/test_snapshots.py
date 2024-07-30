@@ -9,7 +9,7 @@ import requests_mock
 
 from aptly_api.base import AptlyAPIException
 from aptly_api.parts.packages import Package
-from aptly_api.parts.snapshots import SnapshotAPISection, Snapshot
+from aptly_api.parts.snapshots import Snapshot, SnapshotAPISection
 
 
 @requests_mock.Mocker(kw="rmock")

@@ -4,13 +4,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from datetime import datetime
-
-from typing import NamedTuple, Sequence, Optional, Dict, Union, cast, List
+from typing import Dict, List, NamedTuple, Optional, Sequence, Union, cast
 from urllib.parse import quote
 
 import iso8601
 
-from aptly_api.base import BaseAPIClient, AptlyAPIException
+from aptly_api.base import AptlyAPIException, BaseAPIClient
 from aptly_api.parts.packages import Package, PackageAPISection
 
 Snapshot = NamedTuple("Snapshot", [("name", str), ("description", Optional[str]), ("created_at", Optional[datetime])])

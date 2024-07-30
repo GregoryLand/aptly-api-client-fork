@@ -3,15 +3,15 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+import json
+from inspect import signature
 from typing import Any
 from unittest.case import TestCase
-from inspect import signature
-import json
 
 import requests_mock
 
+from aptly_api.parts.mirrors import Mirror, MirrorsAPISection
 from aptly_api.parts.packages import Package
-from aptly_api.parts.mirrors import MirrorsAPISection, Mirror
 
 
 @requests_mock.Mocker(kw="rmock")
