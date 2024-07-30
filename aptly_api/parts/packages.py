@@ -30,13 +30,12 @@ class PackageAPISection(BaseAPIClient):
                 files_hash=None,
                 fields=None,
             )
-        else:
-            return Package(
-                key=api_response["Key"],
-                short_key=api_response["ShortKey"] if "ShortKey" in api_response else None,
-                files_hash=api_response["FilesHash"] if "FilesHash" in api_response else None,
-                fields=api_response,
-            )
+        return Package(
+            key=api_response["Key"],
+            short_key=api_response["ShortKey"] if "ShortKey" in api_response else None,
+            files_hash=api_response["FilesHash"] if "FilesHash" in api_response else None,
+            fields=api_response,
+        )
 
     def show(self, key: str) -> Package:
         resp = self.do_get("api/packages/%s" % quote(key))

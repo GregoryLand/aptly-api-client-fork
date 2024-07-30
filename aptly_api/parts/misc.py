@@ -23,8 +23,7 @@ class MiscAPISection(BaseAPIClient):
         resp = self.do_get("api/version")
         if "Version" in resp.json():
             return cast(str, resp.json()["Version"])
-        else:
-            raise AptlyAPIException("Aptly server didn't return a valid response object:\n%s" % resp.text)
+        raise AptlyAPIException("Aptly server didn't return a valid response object:\n%s" % resp.text)
 
     def _do_get_clear_404(self) -> requests.Response:
         try:
@@ -54,9 +53,8 @@ class MiscAPISection(BaseAPIClient):
             resp = self.do_get("api/healthy")
             if "Status" in resp.json():
                 return cast(str, resp.json()["Status"])
-            else:
-                msg = "Aptly server didn't return a valid response object:\n%s" % resp.text
-                raise AptlyAPIException(msg)
+            msg = "Aptly server didn't return a valid response object:\n%s" % resp.text
+            raise AptlyAPIException(msg)
         except ValueError as error:
             msg = "The Healthy Api is not yet supported"
             raise NotImplementedError(msg) from error
