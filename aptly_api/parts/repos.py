@@ -7,17 +7,17 @@ from urllib.parse import quote
 from aptly_api.base import AptlyAPIException, BaseAPIClient
 from aptly_api.parts.packages import Package, PackageAPISection
 
-Repo = NamedTuple(
-    "Repo",
-    [
-        ("name", str),
-        ("comment", Optional[str]),
-        ("default_distribution", Optional[str]),
-        ("default_component", Optional[str]),
-    ],
-)
 
-FileReport = NamedTuple("FileReport", [("failed_files", Sequence[str]), ("report", Dict[str, Sequence[str]])])
+class Repo(NamedTuple):
+    name: str
+    comment: Optional[str]
+    default_distribution: Optional[str]
+    default_component: Optional[str]
+
+
+class FileReport(NamedTuple):
+    failed_files: Sequence[str]
+    report: Dict[str, Sequence[str]]
 
 
 class ReposAPISection(BaseAPIClient):

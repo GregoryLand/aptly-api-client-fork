@@ -6,20 +6,17 @@ from urllib.parse import quote
 
 from aptly_api.base import AptlyAPIException, BaseAPIClient
 
-PublishEndpoint = NamedTuple(
-    "PublishEndpoint",
-    [
-        ("storage", str),
-        ("prefix", str),
-        ("distribution", str),
-        ("source_kind", str),
-        ("sources", Sequence[Dict[str, str]]),
-        ("architectures", Sequence[str]),
-        ("label", str),
-        ("origin", str),
-        ("acquire_by_hash", bool),
-    ],
-)
+
+class PublishEndpoint(NamedTuple):
+    storage: str
+    prefix: str
+    distribution: str
+    source_kind: str
+    sources: Sequence[Dict[str, str]]
+    architectures: Sequence[str]
+    label: str
+    origin: str
+    acquire_by_hash: bool
 
 
 T_BodyDict = Dict[str, Union[str, bool, Sequence[Dict[str, str]], Sequence[str], Dict[str, Union[bool, str]]]]

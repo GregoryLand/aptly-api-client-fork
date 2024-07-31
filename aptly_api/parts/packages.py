@@ -7,15 +7,12 @@ from urllib.parse import quote
 
 from aptly_api.base import BaseAPIClient
 
-Package = NamedTuple(
-    "Package",
-    [
-        ("key", str),
-        ("short_key", Optional[str]),
-        ("files_hash", Optional[str]),
-        ("fields", Optional[Dict[str, str]]),
-    ],
-)
+
+class Package(NamedTuple):
+    key: str
+    short_key: Optional[str]
+    files_hash: Optional[str]
+    fields: Optional[Dict[str, str]]
 
 
 class PackageAPISection(BaseAPIClient):

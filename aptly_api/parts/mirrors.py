@@ -7,28 +7,26 @@ from urllib.parse import quote
 from aptly_api.base import BaseAPIClient
 from aptly_api.parts.packages import Package, PackageAPISection
 
-Mirror = NamedTuple(
-    "Mirror",
-    [
-        ("uuid", Optional[str]),
-        ("name", str),
-        ("archiveurl", str),
-        ("distribution", Optional[str]),
-        ("components", Optional[Sequence[str]]),
-        ("architectures", Optional[Sequence[str]]),
-        ("meta", Optional[Sequence[Dict[str, str]]]),
-        ("downloaddate", Optional[str]),
-        ("filter", Optional[str]),
-        ("status", Optional[int]),
-        ("worker_pid", Optional[int]),
-        ("filter_with_deps", bool),
-        ("skip_component_check", bool),
-        ("skip_architecture_check", bool),
-        ("download_sources", bool),
-        ("download_udebs", bool),
-        ("download_installer", bool),
-    ],
-)
+
+class Mirror(NamedTuple):
+    uuid: Optional[str]
+    name: str
+    archiveurl: str
+    distribution: Optional[str]
+    components: Optional[Sequence[str]]
+    architectures: Optional[Sequence[str]]
+    meta: Optional[Sequence[Dict[str, str]]]
+    downloaddate: Optional[str]
+    filter: Optional[str]
+    status: Optional[int]
+    worker_pid: Optional[int]
+    filter_with_deps: bool
+    skip_component_check: bool
+    skip_architecture_check: bool
+    download_sources: bool
+    download_udebs: bool
+    download_installer: bool
+
 
 T_BodyDict = Dict[str, Union[str, bool, Sequence[Dict[str, str]], Sequence[str], Dict[str, Union[bool, str]]]]
 

@@ -10,7 +10,11 @@ import iso8601
 from aptly_api.base import AptlyAPIException, BaseAPIClient
 from aptly_api.parts.packages import Package, PackageAPISection
 
-Snapshot = NamedTuple("Snapshot", [("name", str), ("description", Optional[str]), ("created_at", Optional[datetime])])
+
+class Snapshot(NamedTuple):
+    name: str
+    description: Optional[str]
+    created_at: Optional[datetime]
 
 
 class SnapshotAPISection(BaseAPIClient):
