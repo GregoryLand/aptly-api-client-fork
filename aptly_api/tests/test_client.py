@@ -46,7 +46,7 @@ class ClientTests(TestCase):
                 self.status_code = status_code
 
         assert (
-            self.client.files._error_from_response(cast(requests.Response, MockResponse())) == "no error (status 200)"
+            self.client.files._error_from_response(cast(requests.Response, MockResponse())) == "no error (status 200)"  # noqa: SLF001
         )
 
     def test_error_no_json(self) -> None:
@@ -55,8 +55,7 @@ class ClientTests(TestCase):
         session = requests.session()
         session.mount("mock", adapter)
         resp = session.get("mock://test/api")
-
-        assert self.client.files._error_from_response(resp) == "400 test this is not json"
+        assert self.client.files._error_from_response(resp) == "400 test this is not json"  # noqa: SLF001
 
     def test_error_dict(self) -> None:
         adapter = requests_mock.Adapter()
@@ -66,7 +65,7 @@ class ClientTests(TestCase):
         session = requests.session()
         session.mount("mock", adapter)
         resp = session.get("mock://test/api")
-        assert self.client.files._error_from_response(resp) == "400 - test - error (meta)"
+        assert self.client.files._error_from_response(resp) == "400 - test - error (meta)"  # noqa: SLF001
 
     def test_error_list(self) -> None:
         adapter = requests_mock.Adapter()
@@ -76,7 +75,7 @@ class ClientTests(TestCase):
         session = requests.session()
         session.mount("mock", adapter)
         resp = session.get("mock://test/api")
-        assert self.client.files._error_from_response(resp) == "400 - test - error (meta)"
+        assert self.client.files._error_from_response(resp) == "400 - test - error (meta)"  # noqa: SLF001
 
     @requests_mock.Mocker(kw="rmock")
     def test_error_get(self, *, rmock: requests_mock.Mocker) -> None:
