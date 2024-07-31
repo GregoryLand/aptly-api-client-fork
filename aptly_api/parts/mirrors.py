@@ -1,78 +1,65 @@
-# -* encoding: utf-8 *-
-
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from typing import NamedTuple, Sequence, Dict, cast, Optional, List, Union
+from typing import Dict, List, NamedTuple, Optional, Sequence, Union, cast
 from urllib.parse import quote
 
 from aptly_api.base import BaseAPIClient
 from aptly_api.parts.packages import Package, PackageAPISection
 
 
-Mirror = NamedTuple('Mirror', [
-    ('uuid', Optional[str]),
-    ('name', str),
-    ('archiveurl', str),
-    ('distribution', Optional[str]),
-    ('components', Optional[Sequence[str]]),
-    ('architectures', Optional[Sequence[str]]),
-    ('meta', Optional[Sequence[Dict[str, str]]]),
-    ('downloaddate', Optional[str]),
-    ('filter', Optional[str]),
-    ('status', Optional[int]),
-    ('worker_pid', Optional[int]),
-    ('filter_with_deps', bool),
-    ('skip_component_check', bool),
-    ('skip_architecture_check', bool),
-    ('download_sources', bool),
-    ('download_udebs', bool),
-    ('download_installer', bool)
-])
+class Mirror(NamedTuple):
+    uuid: Optional[str]
+    name: str
+    archiveurl: str
+    distribution: Optional[str]
+    components: Optional[Sequence[str]]
+    architectures: Optional[Sequence[str]]
+    meta: Optional[Sequence[Dict[str, str]]]
+    downloaddate: Optional[str]
+    filter: Optional[str]
+    status: Optional[int]
+    worker_pid: Optional[int]
+    filter_with_deps: bool
+    skip_component_check: bool
+    skip_architecture_check: bool
+    download_sources: bool
+    download_udebs: bool
+    download_installer: bool
 
-T_BodyDict = Dict[str, Union[str, bool, Sequence[Dict[str, str]],
-                             Sequence[str], Dict[str, Union[bool, str]]]]
+
+T_BodyDict = Dict[str, Union[str, bool, Sequence[Dict[str, str]], Sequence[str], Dict[str, Union[bool, str]]]]
 
 
 class MirrorsAPISection(BaseAPIClient):
     @staticmethod
     def mirror_from_response(api_response: Dict[str, str]) -> Mirror:
         return Mirror(
-            uuid=cast(str, api_response["UUID"]
-                      ) if "UUID" in api_response else None,
+            uuid=cast(str, api_response["UUID"]) if "UUID" in api_response else None,
             name=cast(str, api_response["Name"]),
-            archiveurl=cast(
-                str, api_response["ArchiveRoot"]),
-            distribution=cast(
-                str, api_response["Distribution"])
-            if "Distribution" in api_response else None,
-            components=cast(List[str], api_response["Components"]
-                            )if "Components" in api_response else None,
-            architectures=cast(List[str], api_response["Architectures"]
-                               ) if "Architectures" in api_response else None,
-            meta=cast(List[Dict[str, str]], api_response["Meta"]
-                      ) if "Meta" in api_response else None,
-            downloaddate=cast(
-                str, api_response["LastDownloadDate"])
-            if "LastDownloadDate" in api_response else None,
-            filter=cast(str, api_response["Filter"]
-                        ) if "Filter" in api_response else None,
-            status=cast(int, api_response["Status"]
-                        )if "Status" in api_response else None,
-            worker_pid=cast( int, api_response["WorkerPID"]
-                            ) if "WorkerPID" in api_response else None,
-            filter_with_deps=cast(bool, api_response["FilterWithDeps"]
-                                  ) if "FilterWithDeps" in api_response else False,
-            skip_component_check=cast(bool, api_response["SkipComponentCheck"]
-                                      ) if "SkipComponentCheck" in api_response else False,
-            skip_architecture_check=cast(bool, api_response["SkipArchitectureCheck"]
-                                         ) if "SkipArchitectureCheck" in api_response else False,
-            download_sources=cast(bool, api_response["DownloadSources"]
-                                  ) if "DownloadSources" in api_response else False,
-            download_udebs=cast(bool, api_response["DownloadUdebs"]
-                                ) if "DownloadUdebs" in api_response else False,
-            download_installer=cast(bool, api_response["DownloadInstaller"]
-                                    ) if "DownloadInstaller" in api_response else False,
+            archiveurl=cast(str, api_response["ArchiveRoot"]),
+            distribution=cast(str, api_response["Distribution"]) if "Distribution" in api_response else None,
+            components=cast(List[str], api_response["Components"]) if "Components" in api_response else None,
+            architectures=cast(List[str], api_response["Architectures"]) if "Architectures" in api_response else None,
+            meta=cast(List[Dict[str, str]], api_response["Meta"]) if "Meta" in api_response else None,
+            downloaddate=cast(str, api_response["LastDownloadDate"]) if "LastDownloadDate" in api_response else None,
+            filter=cast(str, api_response["Filter"]) if "Filter" in api_response else None,
+            status=cast(int, api_response["Status"]) if "Status" in api_response else None,
+            worker_pid=cast(int, api_response["WorkerPID"]) if "WorkerPID" in api_response else None,
+            filter_with_deps=cast(bool, api_response["FilterWithDeps"]) if "FilterWithDeps" in api_response else False,
+            skip_component_check=cast(bool, api_response["SkipComponentCheck"])
+            if "SkipComponentCheck" in api_response
+            else False,
+            skip_architecture_check=cast(bool, api_response["SkipArchitectureCheck"])
+            if "SkipArchitectureCheck" in api_response
+            else False,
+            download_sources=cast(bool, api_response["DownloadSources"])
+            if "DownloadSources" in api_response
+            else False,
+            download_udebs=cast(bool, api_response["DownloadUdebs"]) if "DownloadUdebs" in api_response else False,
+            download_installer=cast(bool, api_response["DownloadInstaller"])
+            if "DownloadInstaller" in api_response
+            else False,
         )
 
     def list(self) -> Sequence[Mirror]:
@@ -80,25 +67,33 @@ class MirrorsAPISection(BaseAPIClient):
 
         mirrors = []
         for mirr in resp.json():
-            mirrors.append(
-                self.mirror_from_response(mirr)
-            )
+            mirrors.append(self.mirror_from_response(mirr))
         return mirrors
 
     def update(self, name: str, ignore_signatures: bool = False) -> None:
         body = {}
         if ignore_signatures:
             body["IgnoreSignatures"] = ignore_signatures
-        self.do_put("api/mirrors/%s" % (quote(name)), json=body)
+        self.do_put(f"api/mirrors/{quote(name)}", json=body)
 
-    def edit(self, name: str, newname: Optional[str] = None, archiveurl: Optional[str] = None,
-             filter: Optional[str] = None, architectures: Optional[List[str]] = None,
-             components: Optional[List[str]] = None, keyrings: Optional[List[str]] = None,
-             filter_with_deps: bool = False, skip_existing_packages: bool = False,
-             download_sources: bool = False, download_udebs: bool = False,
-             skip_component_check: bool = False, ignore_checksums: bool = False,
-             ignore_signatures: bool = False, force_update: bool = False) -> None:
-
+    def edit(
+        self,
+        name: str,
+        newname: Optional[str] = None,
+        archiveurl: Optional[str] = None,
+        filter: Optional[str] = None,  # noqa: A002
+        architectures: Optional[List[str]] = None,
+        components: Optional[List[str]] = None,
+        keyrings: Optional[List[str]] = None,
+        filter_with_deps: bool = False,
+        skip_existing_packages: bool = False,
+        download_sources: bool = False,
+        download_udebs: bool = False,
+        skip_component_check: bool = False,
+        ignore_checksums: bool = False,
+        ignore_signatures: bool = False,
+        force_update: bool = False,
+    ) -> None:
         body = {}  # type: T_BodyDict
         if newname:
             body["Name"] = newname
@@ -129,15 +124,16 @@ class MirrorsAPISection(BaseAPIClient):
         if force_update:
             body["ForceUpdate"] = force_update
 
-        self.do_put("api/mirrors/%s" % (quote(name)), json=body)
+        self.do_put(f"api/mirrors/{quote(name)}", json=body)
 
     def show(self, name: str) -> Mirror:
-        resp = self.do_get("api/mirrors/%s" % (quote(name)))
+        resp = self.do_get(f"api/mirrors/{quote(name)}")
 
         return self.mirror_from_response(resp.json())
 
-    def list_packages(self, name: str, query: Optional[str] = None, with_deps: bool = False,
-                      detailed: bool = False) -> Sequence[Package]:
+    def list_packages(
+        self, name: str, query: Optional[str] = None, with_deps: bool = False, detailed: bool = False
+    ) -> Sequence[Package]:
         params = {}
         if query is not None:
             params["q"] = query
@@ -146,27 +142,33 @@ class MirrorsAPISection(BaseAPIClient):
         if detailed:
             params["format"] = "details"
 
-        resp = self.do_get("api/mirrors/%s/packages" %
-                           quote(name), params=params)
+        resp = self.do_get(f"api/mirrors/{quote(name)}/packages", params=params)
         ret = []
         for rpkg in resp.json():
             ret.append(PackageAPISection.package_from_response(rpkg))
         return ret
 
     def delete(self, name: str) -> None:
-        self.do_delete("api/mirrors/%s" % quote(name))
+        self.do_delete(f"api/mirrors/{quote(name)}")
 
-    def create(self, name: str, archiveurl: str, distribution: Optional[str] = None,
-               filter: Optional[str] = None, components: Optional[List[str]] = None,
-               architectures: Optional[List[str]] = None, keyrings: Optional[List[str]] = None,
-               download_sources: bool = False, download_udebs: bool = False,
-               download_installer: bool = False, filter_with_deps: bool = False,
-               skip_component_check: bool = False, skip_architecture_check: bool = False,
-               ignore_signatures: bool = False) -> Mirror:
-        data = {
-            "Name": name,
-            "ArchiveURL": archiveurl
-        }  # type: T_BodyDict
+    def create(
+        self,
+        name: str,
+        archiveurl: str,
+        distribution: Optional[str] = None,
+        filter: Optional[str] = None,  # noqa: A002
+        components: Optional[List[str]] = None,
+        architectures: Optional[List[str]] = None,
+        keyrings: Optional[List[str]] = None,
+        download_sources: bool = False,
+        download_udebs: bool = False,
+        download_installer: bool = False,
+        filter_with_deps: bool = False,
+        skip_component_check: bool = False,
+        skip_architecture_check: bool = False,
+        ignore_signatures: bool = False,
+    ) -> Mirror:
+        data = {"Name": name, "ArchiveURL": archiveurl}  # type: T_BodyDict
 
         if distribution:
             data["Distribution"] = distribution
