@@ -73,7 +73,6 @@ ignore = [
     "N818",
     "PERF401",
     "TRY003",
-    "UP031",
 ]
 
 [tool.hatch.envs.mypy]

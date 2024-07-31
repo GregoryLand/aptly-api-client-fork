@@ -74,7 +74,7 @@ class MirrorsAPISection(BaseAPIClient):
         body = {}
         if ignore_signatures:
             body["IgnoreSignatures"] = ignore_signatures
-        self.do_put("api/mirrors/%s" % (quote(name)), json=body)
+        self.do_put(f"api/mirrors/{quote(name)}", json=body)
 
     def edit(
         self,
@@ -124,10 +124,10 @@ class MirrorsAPISection(BaseAPIClient):
         if force_update:
             body["ForceUpdate"] = force_update
 
-        self.do_put("api/mirrors/%s" % (quote(name)), json=body)
+        self.do_put(f"api/mirrors/{quote(name)}", json=body)
 
     def show(self, name: str) -> Mirror:
-        resp = self.do_get("api/mirrors/%s" % (quote(name)))
+        resp = self.do_get(f"api/mirrors/{quote(name)}")
 
         return self.mirror_from_response(resp.json())
 
@@ -142,14 +142,14 @@ class MirrorsAPISection(BaseAPIClient):
         if detailed:
             params["format"] = "details"
 
-        resp = self.do_get("api/mirrors/%s/packages" % quote(name), params=params)
+        resp = self.do_get(f"api/mirrors/{quote(name)}/packages", params=params)
         ret = []
         for rpkg in resp.json():
             ret.append(PackageAPISection.package_from_response(rpkg))
         return ret
 
     def delete(self, name: str) -> None:
-        self.do_delete("api/mirrors/%s" % quote(name))
+        self.do_delete(f"api/mirrors/{quote(name)}")
 
     def create(
         self,

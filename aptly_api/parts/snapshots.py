@@ -31,9 +31,8 @@ class SnapshotAPISection(BaseAPIClient):
 
     def list(self, sort: str = "name") -> Sequence[Snapshot]:
         if sort not in ["name", "time"]:
-            raise AptlyAPIException(
-                "Snapshot LIST only supports two sort modes: 'name' and 'time'. %s is not " "supported." % sort
-            )
+            msg = f"Snapshot LIST only supports two sort modes: 'name' and 'time'. {sort} is not supported."
+            raise AptlyAPIException(msg)
         resp = self.do_get("api/snapshots", params={"sort": sort})
         ret = []
         for rsnap in resp.json():
@@ -47,7 +46,7 @@ class SnapshotAPISection(BaseAPIClient):
         if description is not None:
             body["Description"] = description
 
-        resp = self.do_post("api/repos/%s/snapshots" % quote(reponame), json=body)
+        resp = self.do_post(f"api/repos/{quote(reponame)}/snapshots", json=body)
         return self.snapshot_from_response(resp.json())
 
     def create_from_mirror(self, mirrorname: str, snapshotname: str, description: Optional[str] = None) -> Snapshot:
@@ -55,7 +54,7 @@ class SnapshotAPISection(BaseAPIClient):
         if description is not None:
             body["Description"] = description
 
-        resp = self.do_post("api/mirrors/%s/snapshots" % quote(mirrorname), json=body)
+        resp = self.do_post(f"api/mirrors/{quote(mirrorname)}/snapshots", json=body)
         return self.snapshot_from_response(resp.json())
 
     def create_from_packages(
@@ -84,7 +83,7 @@ class SnapshotAPISection(BaseAPIClient):
         self, snapshotname: str, newname: Optional[str] = None, newdescription: Optional[str] = None
     ) -> Snapshot:
         if newname is None and newdescription is None:
-            msg = "When updating a Snapshot you must at lease provide either a new name or a " "new description."
+            msg = "When updating a Snapshot you must at lease provide either a new name or a new description."
             raise AptlyAPIException(msg)
         body = {}  # type: Dict[str, Union[str, Sequence[str]]]
         if newname is not None:
@@ -93,11 +92,11 @@ class SnapshotAPISection(BaseAPIClient):
         if newdescription is not None:
             body["Description"] = newdescription
 
-        resp = self.do_put("api/snapshots/%s" % quote(snapshotname), json=body)
+        resp = self.do_put(f"api/snapshots/{quote(snapshotname)}", json=body)
         return self.snapshot_from_response(resp.json())
 
     def show(self, snapshotname: str) -> Snapshot:
-        resp = self.do_get("api/snapshots/%s" % quote(snapshotname))
+        resp = self.do_get(f"api/snapshots/{quote(snapshotname)}")
         return self.snapshot_from_response(resp.json())
 
     def list_packages(
@@ -111,7 +110,7 @@ class SnapshotAPISection(BaseAPIClient):
         if detailed:
             params["format"] = "details"
 
-        resp = self.do_get("api/snapshots/%s/packages" % quote(snapshotname), params=params)
+        resp = self.do_get(f"api/snapshots/{quote(snapshotname)}/packages", params=params)
         ret = []
         for rpkg in resp.json():
             ret.append(PackageAPISection.package_from_response(rpkg))
@@ -124,14 +123,8 @@ class SnapshotAPISection(BaseAPIClient):
                 "force": "1",
             }
 
-        self.do_delete("api/snapshots/%s" % quote(snapshotname), params=params)
+        self.do_delete(f"api/snapshots/{quote(snapshotname)}", params=params)
 
     def diff(self, snapshot1: str, snapshot2: str) -> Sequence[Dict[str, str]]:
-        resp = self.do_get(
-            "api/snapshots/%s/diff/%s"
-            % (
-                quote(snapshot1),
-                quote(snapshot2),
-            )
-        )
+        resp = self.do_get(f"api/snapshots/{quote(snapshot1)}/diff/{quote(snapshot2)}")
         return cast(List[Dict[str, str]], resp.json())

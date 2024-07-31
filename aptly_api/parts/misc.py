@@ -21,7 +21,8 @@ class MiscAPISection(BaseAPIClient):
         resp = self.do_get("api/version")
         if "Version" in resp.json():
             return cast(str, resp.json()["Version"])
-        raise AptlyAPIException("Aptly server didn't return a valid response object:\n%s" % resp.text)
+        msg = f"Aptly server didn't return a valid response object:\n{resp.text}"
+        raise AptlyAPIException(msg)
 
     def _do_get_clear_404(self) -> requests.Response:
         try:
@@ -33,16 +34,16 @@ class MiscAPISection(BaseAPIClient):
                 raise NotImplementedError(msg) from error
             # 503 is needed by api/ready for returning its unready condition
             if error.status_code not in {HTTP_CODE_200, HTTP_CODE_503}:
-                raise AptlyAPIException(
-                    "Aptly server returned an unexpected status_code " + str(error.status_code)
-                ) from error
+                msg = f"Aptly server returned an unexpected status_code {error.status_code}"
+                raise AptlyAPIException(msg) from error
             raise
 
     def ready(self) -> str:
         resp = self._do_get_clear_404()
 
         if "Status" not in resp.json():
-            raise AptlyAPIException("Aptly server didn't return a valid response object:\n%s" % resp.text)
+            msg = f"Aptly server didn't return a valid response object:\n{resp.text}"
+            raise AptlyAPIException(msg)
 
         return cast(str, resp.json()["Status"])
 
@@ -51,7 +52,7 @@ class MiscAPISection(BaseAPIClient):
             resp = self.do_get("api/healthy")
             if "Status" in resp.json():
                 return cast(str, resp.json()["Status"])
-            msg = "Aptly server didn't return a valid response object:\n%s" % resp.text
+            msg = f"Aptly server didn't return a valid response object:\n{resp.text}"
             raise AptlyAPIException(msg)
         except ValueError as error:
             msg = "The Healthy Api is not yet supported"

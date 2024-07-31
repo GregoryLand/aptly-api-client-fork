@@ -33,5 +33,5 @@ class PackageAPISection(BaseAPIClient):
         )
 
     def show(self, key: str) -> Package:
-        resp = self.do_get("api/packages/%s" % quote(key))
+        resp = self.do_get(f"api/packages/{quote(key)}")
         return self.package_from_response(resp.json())

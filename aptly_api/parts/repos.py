@@ -60,7 +60,7 @@ class ReposAPISection(BaseAPIClient):
         return self.repo_from_response(resp.json())
 
     def show(self, reponame: str) -> Repo:
-        resp = self.do_get("api/repos/%s" % quote(reponame))
+        resp = self.do_get(f"api/repos/{quote(reponame)}")
         return self.repo_from_response(resp.json())
 
     def search_packages(
@@ -79,7 +79,7 @@ class ReposAPISection(BaseAPIClient):
         if detailed:
             params["format"] = "details"
 
-        resp = self.do_get("api/repos/%s/packages" % quote(reponame), params=params)
+        resp = self.do_get(f"api/repos/{quote(reponame)}/packages", params=params)
         ret = []
         for rpkg in resp.json():
             ret.append(PackageAPISection.package_from_response(rpkg))
@@ -104,7 +104,7 @@ class ReposAPISection(BaseAPIClient):
         if default_component is not None:
             body["DefaultComponent"] = default_component
 
-        resp = self.do_put("api/repos/%s" % quote(reponame), json=body)
+        resp = self.do_put(f"api/repos/{quote(reponame)}", json=body)
         return self.repo_from_response(resp.json())
 
     def list(self) -> Sequence[Repo]:
@@ -116,7 +116,7 @@ class ReposAPISection(BaseAPIClient):
         return repos
 
     def delete(self, reponame: str, force: bool = False) -> None:
-        self.do_delete("api/repos/%s" % quote(reponame), params={"force": "1" if force else "0"})
+        self.do_delete(f"api/repos/{quote(reponame)}", params={"force": "1" if force else "0"})
 
     def add_uploaded_file(
         self,
@@ -134,21 +134,12 @@ class ReposAPISection(BaseAPIClient):
 
         if filename is None:
             resp = self.do_post(
-                "api/repos/%s/file/%s"
-                % (
-                    quote(reponame),
-                    quote(dir),
-                ),
+                f"api/repos/{quote(reponame)}/file/{quote(dir)}",
                 params=params,
             )
         else:
             resp = self.do_post(
-                "api/repos/%s/file/%s/%s"
-                % (
-                    quote(reponame),
-                    quote(dir),
-                    quote(filename),
-                ),
+                f"api/repos/{quote(reponame)}/file/{quote(dir)}/{quote(filename)}",
                 params=params,
             )
 
@@ -156,7 +147,7 @@ class ReposAPISection(BaseAPIClient):
 
     def add_packages_by_key(self, reponame: str, *package_keys: str) -> Repo:
         resp = self.do_post(
-            "api/repos/%s/packages" % quote(reponame),
+            f"api/repos/{quote(reponame)}/packages",
             json={
                 "PackageRefs": package_keys,
             },
@@ -165,7 +156,7 @@ class ReposAPISection(BaseAPIClient):
 
     def delete_packages_by_key(self, reponame: str, *package_keys: str) -> Repo:
         resp = self.do_delete(
-            "api/repos/%s/packages" % quote(reponame),
+            f"api/repos/{quote(reponame)}/packages",
             json={
                 "PackageRefs": package_keys,
             },

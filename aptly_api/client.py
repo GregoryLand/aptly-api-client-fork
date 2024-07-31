@@ -79,4 +79,4 @@ class Client:
         return self.__aptly_server_url
 
     def __repr__(self) -> str:
-        return "Client (Aptly API Client) <%s>" % self.aptly_server_url
+        return f"Client (Aptly API Client) <{self.aptly_server_url}>"

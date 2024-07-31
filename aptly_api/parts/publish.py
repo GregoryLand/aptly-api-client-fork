@@ -103,7 +103,7 @@ class PublishAPISection(BaseAPIClient):
 
         url = "api/publish"
         if prefix is not None and prefix != "":
-            url = "api/publish/%s" % quote(self.escape_prefix(prefix))
+            url = f"api/publish/{quote(self.escape_prefix(prefix))}"
 
         body = {
             "SourceKind": source_kind,
@@ -210,11 +210,7 @@ class PublishAPISection(BaseAPIClient):
         body["Signing"] = sign_dict
 
         resp = self.do_put(
-            "api/publish/%s/%s"
-            % (
-                quote(self.escape_prefix(prefix)),
-                quote(distribution),
-            ),
+            f"api/publish/{quote(self.escape_prefix(prefix))}/{quote(distribution)}",
             json=body,
         )
         return self.endpoint_from_response(resp.json())
@@ -224,10 +220,6 @@ class PublishAPISection(BaseAPIClient):
         if force_delete:
             params["force"] = "1"
         self.do_delete(
-            "api/publish/%s/%s"
-            % (
-                quote(self.escape_prefix(prefix)),
-                quote(distribution),
-            ),
+            f"api/publish/{quote(self.escape_prefix(prefix))}/{quote(distribution)}",
             params=params,
         )

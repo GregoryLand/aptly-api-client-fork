@@ -94,25 +94,15 @@ class BaseAPIClient:
         try:
             rcnt = resp.json()
         except ValueError:
-            return "%s %s %s" % (
-                resp.status_code,
-                resp.reason,
-                resp.text,
-            )
+            return f"{resp.status_code} {resp.reason} {resp.text}"
 
         content = rcnt if isinstance(rcnt, dict) else rcnt[0]
 
-        ret = "%s - %s -" % (resp.status_code, resp.reason)
+        ret = f"{resp.status_code} - {resp.reason} -"
         if "error" in content:
-            ret = "%s %s" % (
-                ret,
-                content["error"],
-            )
+            ret = f"{ret} {content['error']}"
         if "meta" in content:
-            ret = "%s (%s)" % (
-                ret,
-                content["meta"],
-            )
+            ret = f"{ret} ({content['meta']})"
         return ret
 
     def _make_url(self, path: str) -> str:
