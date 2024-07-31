@@ -67,12 +67,12 @@ line-length = 120
 
 [tool.ruff.lint]
 ignore = [
-    "FA100",
-    "FBT001",
-    "FBT002",
-    "N818",
-    "PERF401",
-    "TRY003",
+    "FA100", 
+    "FBT001", # Would need to change interfaces to fix.
+    "FBT002", # Would need to change interfaces to fix.
+    "N818",   # Would need to change interfaces to fix.
+    "PERF401", 
+    "TRY003", # Would need to change interfaces to fix.
 ]
 
 [tool.hatch.envs.mypy]
