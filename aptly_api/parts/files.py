@@ -26,8 +26,6 @@ class FilesAPISection(BaseAPIClient):
 
         try:
             resp = self.do_post("api/files/%s" % destination, files=to_upload)
-        except AptlyAPIException:
-            raise
         finally:
             for _fn, to_close in to_upload:
                 if not to_close.closed:
