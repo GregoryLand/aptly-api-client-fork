@@ -64,7 +64,6 @@ class MiscAPISectionTests(TestCase):
 
     def test_healthy_aptly_to_old(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.register_uri("GET", "http://test/api/healthy", status_code=404, text="Not Found")
-        rmock.get("http://test/api/healthy")
         with pytest.raises(NotImplementedError):
             self.mapi.healthy()
 
