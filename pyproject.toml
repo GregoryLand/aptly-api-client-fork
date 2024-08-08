@@ -20,16 +20,22 @@ classifiers = [
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "License :: OSI Approved :: BSD License",
     "Operating System :: POSIX",
     "Programming Language :: Python :: 3 :: Only",
 ]
+requires-python = ">3.8"
+
 # intentionally unpinned. We're a library, so we don't need to conflict with others by pinning versions
 # and we don't depend on a specific minimum version.
 dependencies = [
     "iso8601",
     "requests",
 ]
+
+[project.urls]
+Homepage = "https://github.com/GregoryLand/aptly-api-client-fork"
+Issues = "https://github.com/GregoryLand/aptly-api-client-fork/issues"
 
 [tool.hatch.version]
 path = "./aptly_api/__init__.py"

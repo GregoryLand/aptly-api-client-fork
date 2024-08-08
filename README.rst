@@ -1,25 +1,19 @@
 Python 3 Aptly API client
 =========================
 
-.. image:: https://coveralls.io/repos/github/gopythongo/aptly-api-client/badge.svg?branch=master
-    :target: https://coveralls.io/github/gopythongo/aptly-api-client?branch=master
+This is a fork of the the original aptly-api-client library. It has interfaces
+to some of the newer aptly interfaces as well as some interfaces that are
+unsupported by `upstream <https://github.com/gopythongo/aptly-api-client/?`__.
 
-.. image:: https://github.com/gopythongo/aptly-api-client/actions/workflows/test.yml/badge.svg
-    :target: https://github.com/gopythongo/aptly-api-client/actions/workflows/test.yml
-
-This is a thin abstraction layer for interfacing with
-`Aptly's HTTP API <https://www.aptly.info/doc/api/>`__. It's used by
-`GoPythonGo <https://github.com/gopythongo/gopythongo/>`__, but can be used as
-a standalone library from Pypi.
+It is a dropin replacement for aptly-api-client.
 
 .. code-block:: shell
 
-    pip install aptly-api-client
+    pip install aptly-api-client-fork
 
 
 Usage
 -----
-
 The library provides a direct abstraction of the published Aptly API, mostly
 using the same naming, only replacing it with pythonic naming where necessary.
 All code has full `PEP 484 <https://www.python.org/dev/peps/pep-0484/>`__
@@ -46,17 +40,6 @@ certificates, HTTP Basic authentication etc.
 
     # add the package to the repo
     aptly.repos.add_uploaded_file("myrepo", "test_folder")
-
-
-Contributors
-============
-
-* @findmyname666 <findmyname666@users.noreply.github.com>
-* Filip Křesťan <fkrestan@users.noreply.github.com>
-* @mgusek <mgusek@users.noreply.github.com>
-* Samuel Bachmann <samuelba@users.noreply.github.com>
-* @agustinhenze <agustinhenze@users.noreply.github.com>
-
 
 License
 =======

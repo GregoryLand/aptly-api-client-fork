@@ -22,9 +22,9 @@ jobs:
             - name: Run Tests
               run: |
                   hatch test --all --cover
-            - name: Lint
-              run: |
-                  hatch fmt --linter --check
             - name: Static Type Checking
               run: |
                   hatch run mypy:type-check
+            - name: Lint
+              run: |
+                  hatch fmt --check
