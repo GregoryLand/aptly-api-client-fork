@@ -151,12 +151,14 @@ class BaseAPIClient:
     def do_put(
         self,
         urlpath: str,
+        params: Optional[MutableMapping[Any, Any]] = None,
         data: Union[bytes, MutableMapping[str, str], IO[Any], None] = None,
         files: _filetype = None,
         json: Optional[MutableMapping[Any, Any]] = None,
     ) -> requests.Response:
         resp = requests.put(
             self._make_url(urlpath),
+            params=params,
             data=data,
             files=files,
             json=json,

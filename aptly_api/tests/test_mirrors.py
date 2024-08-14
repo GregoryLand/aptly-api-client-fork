@@ -9,6 +9,7 @@ from unittest.case import TestCase
 import pytest
 import requests_mock
 
+from aptly_api import AptlyAPIException
 from aptly_api.parts.mirrors import Mirror, MirrorsAPISection
 from aptly_api.parts.packages import Package
 
@@ -320,6 +321,15 @@ class MirrorsAPISectionTests(TestCase):
         with pytest.raises(requests_mock.NoMockAddress):
             self.miapi.update(name="aptly-mirror", ignore_signatures=True)
 
+    def test_update_async(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
+        with pytest.raises(requests_mock.NoMockAddress):
+            self.miapi.update_async(name="aptly-mirror", ignore_signatures=True)
+
+    def test_update_async_error_no_id_returned(self, *, rmock: requests_mock.Mocker) -> None:
+        rmock.put("http://test/api/mirrors/aptly-mirror", json={"asdfasdf": 1})
+        with pytest.raises(AptlyAPIException):
+            self.miapi.update_async(name="aptly-mirror")
+
     def test_edit(self, *, rmock: requests_mock.Mocker) -> None:  # noqa: ARG002
         with pytest.raises(requests_mock.NoMockAddress):
             self.miapi.edit(
@@ -347,6 +357,11 @@ class MirrorsAPISectionTests(TestCase):
     def test_update_validation(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.put("http://test/api/mirrors/aptly-mirror")
         self.miapi.update(name="aptly-mirror")
+
+    def test_update_async_validation(self, *, rmock: requests_mock.Mocker) -> None:
+        rmock.put("http://test/api/mirrors/aptly-mirror", json={"ID": 1})
+        code = self.miapi.update_async(name="aptly-mirror")
+        assert code == 1
 
     def test_edit_validation(self, *, rmock: requests_mock.Mocker) -> None:
         rmock.put("http://test/api/mirrors/aptly-mirror", text='{"Name":"aptly-mirror-bla", "IgnoreSignatures": true}')

@@ -1,11 +1,13 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from typing import Dict, List, NamedTuple, Optional, Sequence, Union, cast
+from typing import Dict, Final, List, NamedTuple, Optional, Sequence, Union, cast
 from urllib.parse import quote
 
-from aptly_api.base import BaseAPIClient
+from aptly_api.base import AptlyAPIException, BaseAPIClient
 from aptly_api.parts.packages import Package, PackageAPISection
+
+TASKID_IDENTIFIER: Final[str] = "ID"
 
 
 class Mirror(NamedTuple):
@@ -75,6 +77,20 @@ class MirrorsAPISection(BaseAPIClient):
         if ignore_signatures:
             body["IgnoreSignatures"] = ignore_signatures
         self.do_put(f"api/mirrors/{quote(name)}", json=body)
+
+    def update_async(self, name: str, ignore_signatures: bool = False) -> int:
+        query = {"_async": 1}
+        body = {}
+
+        if ignore_signatures:
+            body["IgnoreSignatures"] = True
+
+        resp = self.do_put(f"api/mirrors/{quote(name)}", params=query, json=body)
+        if TASKID_IDENTIFIER not in resp.json():
+            msg = f"Aptly server didn't return a valid response. Code: {resp.status_code}"
+            raise AptlyAPIException(msg)
+
+        return resp.json()[TASKID_IDENTIFIER]
 
     def edit(
         self,
