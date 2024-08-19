@@ -1,11 +1,10 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from typing import Dict, List, NamedTuple, Optional, Sequence, Union, cast
+from typing import Dict, List, NamedTuple, Optional, Sequence, Union, cast, Final
 from urllib.parse import quote
 
 from aptly_api.base import AptlyAPIException, BaseAPIClient
-
 
 class PublishEndpoint(NamedTuple):
     storage: str
@@ -20,6 +19,7 @@ class PublishEndpoint(NamedTuple):
 
 
 T_BodyDict = Dict[str, Union[str, bool, Sequence[Dict[str, str]], Sequence[str], Dict[str, Union[bool, str]]]]
+TASKID_IDENTIFIER: Final[str] = "ID"
 
 
 class PublishAPISection(BaseAPIClient):
@@ -69,6 +69,7 @@ class PublishAPISection(BaseAPIClient):
         label: Optional[str] = None,
         origin: Optional[str] = None,
         force_overwrite: bool = False,
+        async_mode: bool = False,
         sign_skip: bool = False,
         sign_batch: bool = True,
         sign_gpgkey: Optional[str] = None,
@@ -105,6 +106,10 @@ class PublishAPISection(BaseAPIClient):
         if prefix is not None and prefix != "":
             url = f"api/publish/{quote(self.escape_prefix(prefix))}"
 
+        query = {}
+        if async_mode:
+            query["_async"] = "1"
+
         body = {
             "SourceKind": source_kind,
             "Sources": sources,
@@ -140,7 +145,11 @@ class PublishAPISection(BaseAPIClient):
                 sign_dict["PassphraseFile"] = sign_passphrase_file
         body["Signing"] = sign_dict
 
-        resp = self.do_post(url, json=body)
+        resp = self.do_post(url, json=body, params=query)
+
+        print(resp.json())
+        if TASKID_IDENTIFIER in resp.json():
+            return resp.json()[TASKID_IDENTIFIER]
         return self.endpoint_from_response(resp.json())
 
     def update(
@@ -159,7 +168,7 @@ class PublishAPISection(BaseAPIClient):
         sign_passphrase_file: Optional[str] = None,
         skip_contents: Optional[bool] = False,
         skip_cleanup: Optional[bool] = False,
-    ) -> PublishEndpoint:
+    ) -> PublishEndpoint | int:
         """
         Example:
 
@@ -213,6 +222,7 @@ class PublishAPISection(BaseAPIClient):
             f"api/publish/{quote(self.escape_prefix(prefix))}/{quote(distribution)}",
             json=body,
         )
+
         return self.endpoint_from_response(resp.json())
 
     def drop(self, *, prefix: str, distribution: str, force_delete: bool = False) -> None:
