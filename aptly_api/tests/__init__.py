@@ -11,3 +11,4 @@ from .test_publish import *  # noqa
 from .test_repos import *  # noqa
 from .test_snapshots import *  # noqa
 from .test_mirrors import *  # noqa
+from .test_tasks import * # noqa
