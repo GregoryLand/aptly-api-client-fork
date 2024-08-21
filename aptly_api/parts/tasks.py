@@ -28,7 +28,11 @@ class TasksAPISection(BaseAPIClient):
         # GET tasks -> 200
 
         data = []
-        for x in resp.json():
+        resp_json = resp.json()
+        if resp_json is None:
+            return data
+
+        for x in resp_json:
             task = Task(
                 task_id = x["ID"],
                 name = x["Name"],

@@ -24,6 +24,12 @@ class TasksAPISectionTests(TestCase):
         returned_list = self.tapi.list()
         assert data == returned_list
 
+    def test_empty_list(self, *, rmock: requests_mock.Mocker) -> None:
+        rmock.get("http://test/api/tasks", text='[]')
+        data = []
+        returned_list = self.tapi.list()
+        assert data == returned_list
+
     def test_clear(self, *, rmock: requests_mock.Mocker) -> None:
         raise NotImplementedError
 
