@@ -12,6 +12,7 @@ from aptly_api.parts.packages import PackageAPISection
 from aptly_api.parts.publish import PublishAPISection
 from aptly_api.parts.repos import ReposAPISection
 from aptly_api.parts.snapshots import SnapshotAPISection
+from aptly_api.parts.tasks import TasksAPISection
 
 
 class Client:
@@ -67,6 +68,13 @@ class Client:
             timeout=timeout,
         )
         self.mirrors = MirrorsAPISection(
+            base_url=self.__aptly_server_url,
+            ssl_verify=ssl_verify,
+            ssl_cert=ssl_cert,
+            http_auth=http_auth,
+            timeout=timeout,
+        )
+        self.tasks = TasksAPISection(
             base_url=self.__aptly_server_url,
             ssl_verify=ssl_verify,
             ssl_cert=ssl_cert,
