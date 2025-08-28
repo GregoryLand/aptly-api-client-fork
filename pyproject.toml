@@ -7,7 +7,7 @@ name = "aptly-api-client-fork"
 dynamic = ["version"]
 description = "A Python 3 client for the Aptly API with support for mirrors"
 readme = "README.rst"
-license = ""
+license = { file = "LICENSE" }
 authors = [
     { name = "Gregory Land (@GregoryLand)", email = "landjgregory@gmail.com" },
     { name = "Jonas Maurus (@jdelic)", email = "jonas@gopythongo.com" },
